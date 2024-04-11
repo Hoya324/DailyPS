@@ -15,5 +15,6 @@ public class Main {
         }
         sb.append("int");
         System.out.print(sb);
+
     }
 }
