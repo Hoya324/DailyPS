@@ -3,28 +3,27 @@ import java.util.*;
 class Solution {
     public int solution(int[] priorities, int location) {
         Queue<Character> readyQueue = new LinkedList<>();
-        int[] maxPriorities = priorities.clone();
+        Queue<Integer> prioritiesQueue = new LinkedList<>();
         int intA = (int) 'A';
         char target = (char) (intA + location);
-        for (int i = 0; i < priorities.length; i++) {
+        
+        int[] maxPriorities = priorities.clone();
+        Arrays.sort(maxPriorities);
+        int prioritiesSize = priorities.length;
+        
+        for (int i = 0; i < prioritiesSize; i++) {
             readyQueue.add((char) (intA + i));
+            prioritiesQueue.add(maxPriorities[prioritiesSize-i-1]);
         }
+        
         
         Queue<Character> progressQueue = new LinkedList<>();
         while (!readyQueue.isEmpty()) {
-            int maxProcessPriority = 0;
-            int maxProcessPriorityIndex = -1;
-            for (int index = 0; index < priorities.length; index++) {
-                int currentPrority = maxPriorities[index];
-                if (maxProcessPriority <= currentPrority) {
-                    maxProcessPriority = currentPrority;
-                    maxProcessPriorityIndex = index;
-                }
-            }
-        
+            int maxProcessPriority = prioritiesQueue.peek();
+            
             if (maxProcessPriority == getPriority(readyQueue.peek(), priorities)) {
                 progressQueue.add(readyQueue.poll());
-                maxPriorities[maxProcessPriorityIndex] = 0;
+                prioritiesQueue.poll();
                 continue;
             }
             
