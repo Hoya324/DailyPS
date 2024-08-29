@@ -1,40 +1,45 @@
- 
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-	
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
+
+	private static String solution(int problemCount, Map<String, Integer> poketmonMap,
+		Map<Integer, String> poketmonNumberMap, String[] problemPocketmon) {
 		StringBuilder sb = new StringBuilder();
-		//조건에 따라 다르게 쓰일 두개의 HashMap
-		HashMap<Integer, String> hash1 = new HashMap<Integer, String>();
-		HashMap<String, Integer> hash2 = new HashMap<String, Integer>();
-		
-		
-		for(int i = 1; i <= N; i++) {
-			String S = br.readLine();
-			hash1.put(i, S);
-			hash2.put(S, i);
-		}
-		
-		for(int i = 0; i < M; i++) {
-			String S = br.readLine();
-			//입력값이 번호인지 포켓몬이름인지 판별
-			if(49 <= S.charAt(0) && S.charAt(0) <= 57) {
-				sb.append(hash1.get(Integer.parseInt(S))).append("\n");
-			}else {
-				sb.append(hash2.get(S)).append("\n");
+		for (String target : problemPocketmon) {
+			if (Character.isDigit(target.charAt(0))) {
+				sb.append(poketmonNumberMap.get(Integer.parseInt(target))).append("\n");
+				continue;
 			}
+			sb.append(poketmonMap.get(target)).append("\n");
 		}
-		System.out.println(sb);
+		return sb.toString();
 	}
 
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int pocketmonCount = Integer.parseInt(st.nextToken());
+		int problemCount = Integer.parseInt(st.nextToken());
+
+		Map<String, Integer> poketmonMap = new HashMap<>();
+		Map<Integer, String> poketmonNumberMap = new HashMap<>();
+
+		for (int i = 0; i < pocketmonCount; i++) {
+			String name = br.readLine();
+			poketmonMap.put(name, i + 1);
+			poketmonNumberMap.put(i + 1, name);
+		}
+
+		String[] problemPocketmon = new String[problemCount];
+		for (int i = 0; i < problemCount; i++) {
+			problemPocketmon[i] = br.readLine();
+		}
+
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		bw.write(solution(problemCount, poketmonMap, poketmonNumberMap, problemPocketmon));
+		bw.flush();
+		bw.close();
+	}
 }
