@@ -15,8 +15,22 @@ public class Main {
 			winningPoints[currentCountry] += numberOfMedalsByCountry[currentCountry-1][3];
 		}
 		int winnerPoint = winningPoints[targetCountry];
+
 		Arrays.sort(winningPoints);
-		return Arrays.binarySearch(winningPoints, winnerPoint);
+		int rank = 1;
+		int rankCount = 1;
+		winningPoints[0] = 0;
+		for (int rankIndex = countryCount; rankIndex >= 1; rankIndex--) {
+			rankCount++;
+			if (rankIndex + 1 < countryCount && winningPoints[rankIndex + 1] == winningPoints[rankIndex]) {
+				continue;
+			}
+			if (winningPoints[rankIndex] == winnerPoint) {
+				break;
+			}
+			rank = rankCount;
+		}
+		return rank;
 	}
 
 
