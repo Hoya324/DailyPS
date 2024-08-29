@@ -8,21 +8,19 @@ public class Main {
 
 		ArrayList<BigInteger> result = new ArrayList<>();
 
-		for (int i = 0; i < arr.length; i++) {
+		for (String s : arr) {
 			StringBuilder sb = new StringBuilder();
-			for (int j = 0; j < arr[i].length(); j++) {
+			for (int j = 0; j < s.length(); j++) {
 
-				if (Character.isDigit(arr[i].charAt(j))) {
+				if (Character.isDigit(s.charAt(j))) {
 
-					sb.append(arr[i].charAt(j));
+					sb.append(s.charAt(j));
 
-					if (j == arr[i].length() - 1) {
+					if (j == s.length() - 1) {
 						result.add(new BigInteger(sb.toString()));
 						sb.delete(0, sb.length());
 					}
-				}
-
-				else {
+				} else {
 					if (sb.length() != 0) {
 						result.add(new BigInteger(sb.toString()));
 						sb.delete(0, sb.length());
