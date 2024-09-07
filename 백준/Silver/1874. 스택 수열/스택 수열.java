@@ -1,43 +1,47 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class Main {
+	private static final String PUSH = "+";
+	private static final String POP = "-";
+	private static final String NO = "NO";
 
-    public static void main(String[] args) throws IOException {
+	private static String solution(int count, int[] nums) {
+		Deque<Integer> stack = new ArrayDeque<>();
+		StringBuilder sb = new StringBuilder();
+		int currentNumber = 1;
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder stringBuilder = new StringBuilder();
-        Deque<Integer> deque = new ArrayDeque<>();
+		for (int target : nums) {
+			while (currentNumber <= target) {
+				stack.push(currentNumber);
+				currentNumber++;
+				sb.append(PUSH).append("\n");
+			}
 
-        int n = Integer.parseInt(br.readLine());
-        int target;
-        int currentNumber = 1;
+			if (stack.peek() == target) {
+				stack.pop();
+				sb.append(POP).append("\n");
+			}
+		}
 
-        for (int i = 0; i < n; i++) {
-            target = Integer.parseInt(br.readLine());
-            while (currentNumber <= target) {
-                deque.add(currentNumber);
-                currentNumber++;
-                stringBuilder.append("+").append("\n");
-            }
+		if (!stack.isEmpty()) {
+			return NO;
+		}
+ 		return sb.toString();
+	}
 
-            if (deque.peekLast() == target) {
-                deque.removeLast();
-                stringBuilder.append("-").append("\n");
-            }
-            else if (currentNumber > n) {
-                break;
-            }
-        }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        if (!deque.isEmpty()) {
-            System.out.println("NO");
-        }
-        else {
-            System.out.println(stringBuilder.toString());
-        }
-    }
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		int count = Integer.parseInt(br.readLine());
+		int[] nums = new int[count];
+		for (int i = 0; i < count; i++) {
+			nums[i] = Integer.parseInt(br.readLine());
+		}
+		bw.write(solution(count, nums));
+		bw.flush();
+		bw.close();
+	}
 }
