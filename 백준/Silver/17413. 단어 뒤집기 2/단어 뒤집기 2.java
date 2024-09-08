@@ -16,9 +16,7 @@ public class Main {
 		for (int index = 0; index < sentence.length(); index++) {
 			char currentUnit = sentence.charAt(index);
 			if (currentUnit == LEFT_TAG) {
-				while (isActivated && !stack.isEmpty()) {
-					result.append(stack.pop());
-				}
+				flipWord(stack, result);
 				result.append(currentUnit);
 				isActivated = false;
 				continue;
@@ -31,9 +29,7 @@ public class Main {
 			}
 
 			if (currentUnit == GAP) {
-				while (!stack.isEmpty()) {
-					result.append(stack.pop());
-				}
+				flipWord(stack, result);
 				result.append(currentUnit);
 				continue;
 			}
@@ -45,10 +41,14 @@ public class Main {
 			}
 		}
 
+		flipWord(stack, result);
+		return result.toString();
+	}
+
+	private static void flipWord(final Deque<Character> stack, final StringBuilder result) {
 		while (!stack.isEmpty()) {
 			result.append(stack.pop());
 		}
-		return result.toString();
 	}
 
 	public static void main(String[] args) throws IOException {
