@@ -7,6 +7,10 @@ public class Main {
 	static int minCost = Integer.MAX_VALUE;
 
 	static void DFS(int currentCity, int visitedCityCount, int currentCost, int start) {
+		if (minCost < currentCost) {
+			return;
+		}
+
 		if (visitedCityCount == N) {
 			if (W[currentCity][start] != 0) {
 				minCost = Math.min(minCost, currentCost + W[currentCity][start]);
@@ -42,4 +46,5 @@ public class Main {
 
 		System.out.println(minCost);
 	}
+
 }
